@@ -11,13 +11,7 @@
 
 ## Contexto
 
-Esta atividade tem como propósito integrar bases de dados de aparelhos celulares dos países do Mercosul.
-
-O principal objetivo é contribuir no combate ao roubo e à clonagem de dispositivos móveis, por meio da organização e tratamento eficiente dos registros.
-
-A solução proposta consiste na ordenação e remoção de duplicidades utilizando como chave o **IMEI (International Mobile Equipment Identity)**, um identificador único de 15 dígitos associado a cada dispositivo.
-
-Para garantir eficiência no processamento de grandes volumes de dados, foi adotada uma abordagem baseada em algoritmos lineares, com complexidade **O(n)**.
+Projeto de processamento e integração de bases de dados de dispositivos móveis dos países do Mercosul, com foco no combate ao roubo e à clonagem de aparelhos. Desenvolvimento de solução para ordenação e remoção de registros duplicados utilizando o IMEI como identificador único. Implementação de algoritmos com complexidade linear (O(n)), garantindo eficiência no tratamento de grandes volumes de dados.
 
 ---
 
