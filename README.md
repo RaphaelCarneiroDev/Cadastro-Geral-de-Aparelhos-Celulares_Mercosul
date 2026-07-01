@@ -1,137 +1,174 @@
-# Cadastro Geral de Aparelhos Celulares - Mercosul
+# 📱 Cadastro Geral de Aparelhos Celulares – Mercosul
 
-## Objetivo
+Sistema desenvolvido para integrar bases de dados de aparelhos celulares dos países do Mercosul, realizando a ordenação e remoção de registros duplicados a partir do **IMEI (International Mobile Equipment Identity)**.
 
-- Reforçar a importância da análise de complexidade na avaliação de algoritmos;
-- Analisar os requisitos de um problema real, propondo uma solução computacional eficiente;
-- Construir um protótipo funcional baseado na solução proposta;
-- Compreender os processos de manipulação de arquivos em Python.
+O projeto foi desenvolvido como parte da disciplina de **Estruturas de Dados e Algoritmos**, com foco na implementação de algoritmos lineares capazes de processar grandes volumes de dados de forma eficiente.
 
 ---
 
-## Contexto
+## 🎯 Objetivos
 
-Projeto de processamento e integração de bases de dados de dispositivos móveis dos países do Mercosul, com foco no combate ao roubo e à clonagem de aparelhos. Desenvolvimento de solução para ordenação e remoção de registros duplicados utilizando o IMEI como identificador único. Implementação de algoritmos com complexidade linear (O(n)), garantindo eficiência no tratamento de grandes volumes de dados.
+* Integrar múltiplos arquivos CSV contendo registros de aparelhos celulares.
+* Ordenar os registros utilizando algoritmos não comparativos.
+* Remover dispositivos duplicados com base no IMEI.
+* Demonstrar a aplicação prática da análise de complexidade de algoritmos.
+* Manipular arquivos de entrada e saída utilizando Python.
 
 ---
 
-## Abordagem da Solução:
+## 📌 O Problema
 
-O sistema apresenta as seguintes etapas:
+O IMEI é um identificador único de 15 dígitos utilizado mundialmente para identificar aparelhos celulares.
 
-1. Leitura de arquivos CSV
-2. Armazenamento em (TAD)
-3. Ordenação dos registros com Radix Sort
+Como diferentes países podem possuir registros duplicados do mesmo dispositivo, torna-se necessário consolidar essas bases de dados de maneira eficiente, preservando apenas uma ocorrência de cada IMEI.
+
+Devido ao grande volume de informações, optou-se por uma solução baseada em algoritmos de complexidade linear.
+
+---
+
+## ⚙️ Tecnologias Utilizadas
+
+* Python
+* Manipulação de arquivos CSV
+* Tipo Abstrato de Dados (TAD)
+* Radix Sort
+* Counting Sort
+
+---
+
+## 📂 Estrutura da Solução
+
+O processamento é realizado nas seguintes etapas:
+
+1. Leitura dos arquivos CSV
+2. Armazenamento dos registros em um TAD (`cVetor`)
+3. Ordenação utilizando **Radix Sort**
 4. Remoção de registros duplicados
-5. Escrita dos dados processados em arquivo de saida .csv
-
-### Estruturas de Dados
-
-Utilizando um *Tipo Abstrato de Dados (TAD)* denominado **cVetor**.
-
-Essa estrutura é responsável por:
-
-- Inserção (`insere`)
-- Acesso (`getRegistro`)
-- Atualização (`setRegistro`)
+5. Escrita do resultado em um novo arquivo CSV
 
 ---
 
-## Algoritmos
+## 🧱 Estrutura de Dados
 
-### Radix Sort
+Foi desenvolvido um **Tipo Abstrato de Dados (TAD)** denominado `cVetor`, responsável pelo armazenamento e manipulação dos registros.
 
-O algoritmo **Radix Sort** é um método de ordenação que processa os elementos dígito por dígito.
+Principais operações implementadas:
 
-De acordo com a referência bibliográfica[1], o Radix Sort é especialmente eficiente quando aplicado a chaves de tamanho fixo, como é o caso do IMEI, que possui 15 dígitos.
+* Inserção de registros
+* Acesso por índice
+* Atualização de registros
 
-O funcionamento ocorre da seguinte forma:
-
-1. Os números são analisados dígito por dígito
-2. Para cada dígito, é aplicada uma ordenação estável, onde ultilizamos o Counting Sort
-3. O processo se repete até todos os dígitos serem processados
-
-#### Complexidade:
-
-- Tempo: O(d * (n + k))
-  - d = número de dígitos (15)
-  - n = número de elementos
-  - k = base (10)
-
-Como d e k são constantes:
-
-Complexidade final: **O(n)**
+A utilização de um TAD torna a solução mais modular, reutilizável e desacoplada da implementação.
 
 ---
 
-### Counting Sort
+# Algoritmos Implementados
 
-O **Counting Sort** é um algoritmo de ordenação estável utilizado quando os elementos possuem valores dentro de um intervalo conhecido.
+## 🔹 Radix Sort
 
-Seu funcionamento se baseia em três etapas principais:
+O algoritmo principal utilizado para ordenação dos registros.
 
-1. Contagem da frequência de cada valor
-2. Cálculo das posições acumuladas
-3. Inserção dos elementos no vetor auxiliar na posição correta
+Como o IMEI possui tamanho fixo (15 dígitos), o Radix Sort permite ordenar todos os elementos em tempo linear, processando cada dígito individualmente.
 
-No contexto desta atividade, o Counting Sort não ordena o IMEI completo, mas apenas um dígito específico por vez, sendo utilizado como sub-rotina do Radix Sort.
+O algoritmo utiliza o **Counting Sort** como rotina auxiliar em cada etapa.
 
-#### Complexidade:
+### Complexidade
 
-- Tempo: O(n + k)
-- Espaço: O(n + k)
+| Recurso | Complexidade       |
+| ------- | ------------------ |
+| Tempo   | **O(d · (n + k))** |
+| Espaço  | **O(n + k)**       |
 
 Onde:
-- n = número de elementos
-- k = quantidade de valores possíveis (0–9)
+
+* **d** = quantidade de dígitos (15)
+* **n** = número de registros
+* **k** = base decimal (10)
+
+Como **d** e **k** são constantes, a complexidade final é:
+
+> **O(n)**
 
 ---
 
-### Remoção de Duplicados
+## 🔹 Counting Sort
 
-Após a ordenação dos registros pelo IMEI, podem haver registros duplicados, assim removidos.
+Utilizado como algoritmo auxiliar do Radix Sort.
 
-Dessa forma, a remoção de duplicatas será realizada com apenas uma passagem pelo vetor:
+Para cada posição do IMEI, o Counting Sort realiza uma ordenação estável baseada na frequência dos dígitos.
 
-1. O primeiro elemento é mantido
-2. Cada elemento é comparado com o anterior
-3. Apenas elementos diferentes são inseridos no novo vetor
+### Complexidade
 
-#### Complexidade:
-
-- Tempo: O(n)
-
----
-
-### Justificativa da Escolha dos Algoritmos
-
-A escolha do Radix Sort e do Counting Sort se baseia nas características do problema:
-
-- O IMEI possui tamanho fixo (15 dígitos)
-- Não há necessidade de comparações entre elementos
-- O volume de dados é elevado
-
-Segundo o livro [1], algoritmos baseados em comparação possuem limite inferior de O(n log n). Portanto, não atenderiam às restrições do problema.
-
-Dessa forma, o uso de algoritmos não comparativos permite atingir desempenho linear, tornando a solução adequada para grandes volumes de dados.
+| Recurso | Complexidade |
+| ------- | ------------ |
+| Tempo   | **O(n + k)** |
+| Espaço  | **O(n + k)** |
 
 ---
 
-## Estatísticas
-O sistema exibe:
+## 🔹 Remoção de Duplicados
 
-- Total de Registro Lidos
-- Total final
-- Duplicados removidos
+Após a ordenação, todos os IMEIs iguais ficam posicionados lado a lado.
 
+Assim, basta realizar uma única passagem pelo vetor para eliminar duplicidades.
 
-### Execução
+### Etapas
 
-python main.py (Get-ChildItem dados_teste/grande/*.csv) -o saída.csv
-*ou*
+* Mantém o primeiro registro
+* Compara cada elemento com o anterior
+* Copia apenas registros distintos
+
+### Complexidade
+
+| Recurso | Complexidade                                |
+| ------- | ------------------------------------------- |
+| Tempo   | **O(n)**                                    |
+| Espaço  | **O(1)** (desconsiderando o vetor de saída) |
+
+---
+
+# 📊 Complexidade Geral
+
+| Etapa                 | Complexidade |
+| --------------------- | ------------ |
+| Leitura dos arquivos  | O(n)         |
+| Radix Sort            | O(n)         |
+| Remoção de duplicados | O(n)         |
+| Escrita do arquivo    | O(n)         |
+
+### Complexidade total
+
+> **O(n)**
+
+A solução evita algoritmos baseados em comparação, cujo limite inferior é **O(n log n)**, tornando-se mais eficiente para grandes volumes de dados.
+
+---
+
+# ▶️ Como Executar
+
+```bash
 python main.py dados_teste/grande/*.csv -o saida.csv
-* **Onde o 'grande' poderá ser trocado pela pasta de arquivos de preferência**
+```
 
+No PowerShell:
+
+```powershell
+python main.py (Get-ChildItem dados_teste/grande/*.csv) -o saida.csv
+```
+
+É possível substituir a pasta `grande` por qualquer conjunto de arquivos de teste disponível.
+
+---
+
+# 📈 Informações Geradas
+
+Ao final da execução, o programa apresenta:
+
+* Total de registros lidos
+* Total de registros após o processamento
+* Quantidade de registros duplicados removidos
+
+---
 
 # Referências Bibliográficas:
 
